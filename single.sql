@@ -34,7 +34,7 @@ GO
 
 CREATE TABLE Tour(
     TourName NVARCHAR(100),
-    [Description]  NVARCHAR(50),
+    [Description]  NVARCHAR(500),
     PRIMARY KEY(TourName)
 )
 
@@ -81,18 +81,6 @@ INSERT INTO Client(ClientID,Surname,GivienName,Gender) VALUES
 (3,'Tan','Tilly','F'),
 (4,'Cao','Xiaoxiao','F');
 
-INSERT INTO Booking(ClientID ,TourName,EventYear,EventMonth,EventDay,DateBooked,Payment) VALUES
-(1,'North',2016,'Jan',9,'10/12/2015',200),
-(2,'North',2016,'Jan',9,'16/12/2015',200),
-(1,'North',2016,'Feb',13,'8/01/2016',225),
-(2,'North',2016,'Feb',13,'14/01/2016',125),
-(3,'North',2016,'Feb',13,'3/02/2016',225),
-(1,	'South',2016,'Jan',9,'10/12/2015',200),
-(2,'South',2016,'Jan',16,'18/12/2015',200),
-(3,	'South',2016,'Jan',16,'9/01/2016',200),
-(2,'West',2016,'Jan',29,'17/12/2015',225),
-(3,'West',2016,'Jan',29,'18/12/2015',200),
-(4,'West',2016,'Mar',29,'18/12/2015',200);
 
 INSERT INTO Event(TourName,EventYear,EventMonth,EventDay,Fee) VALUES
 ('North',2016,'Jan',9,200),
@@ -101,12 +89,60 @@ INSERT INTO Event(TourName,EventYear,EventMonth,EventDay,Fee) VALUES
 ('South',2016,'Jan',16,200),
 ('West',2016,'Jan',29,225);
 
-SELECT *
-FROM Client
+INSERT INTO Booking(ClientID ,TourName,EventYear,EventMonth,EventDay,DateBooked,Payment) VALUES
+(1,'North',2016,'Jan',9,'2015-12-10',200),
+(2,'North',2016,'Jan',9,'2015-12-16',200),
+(1,'North',2016,'Feb',13,'2016-01-08',225),
+(2,'North',2016,'Feb',13,'2016-01-14',125),
+(3,'North',2016,'Feb',13,'2016-02-03',225),
+(1,'South',2016,'Jan',9,'2015-12-10',200),
+(2,'South',2016,'Jan',16,'2015-12-18',200),
+(3,'South',2016,'Jan',16,'2016-01-09',200),
+(2,'West',2016,'Jan',29,'2015-12-17',225),
+(3,'West',2016,'Jan',29,'2015-12-18',200),
+(4,'West',2016,'Jan',29,'2015-12-18',200);
+
+SELECT C.GivienName,C.Surname,T.TourName,T.Description,E.EventYear,E.EventMonth,E.EventDay,E.Fee, B.DateBooked,B.Payment 
+FROM Client C
+INNER JOIN Booking B
+ON C.ClientID=B.ClientID
+INNER JOIN Event E
+ON B.EventYear=E.EventYear
+INNER JOIN Tour T
+ON E.TourName=T.TourName
 
 
+SELECT EventMonth, TourName, COUNT(*) AS 'Num Booking'
+FROM Event 
+Group by EventMonth,TourName
+
+ SELECT *
+FROM Booking
+WHERE Payment>(
+    SELECT AVG(Payment)
+    FROM Booking
+);
 
 
+-- GO
+-- IF OBJECT_ID('Myview') IS NOT NULL
+-- DROP VIEW Myview;
+-- GO
+-- CREATE VIEW Myview AS
+-- SELECT st.GivenName AS FIRSTNAME,st.Surname AS LASTNAME,sb.SubjCode,sb.[Description],su.[Year],
+-- su.Semester,su.Fee,te.GivenName,te.Surname
+-- FROM Student st
+-- INNER JOIN Enrolment en
+-- on st.StudentID=en.StudentID
+-- INNER JOIN SubjectOffering su
+-- on en.SubjCode=su.SubjCode
+-- INNER JOIN Subject sb
+-- on sb.SubjCode=su.SubjCode
+-- INNER JOIN Teacher te
+--  ON te.StaffID=su.StaffID
+--  GO
+--  SELECT * 
+--  FROM Myview
 
 
 
