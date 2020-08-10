@@ -1,6 +1,6 @@
 -- name Xiaoxiao Cao
 -- Id:103043833
--- -------------------task1--------------------
+-- -------------------task1--------------------------------------
 -- Tour (TourName,Description) 
 -- PRIMARY KEY (TourName) 
 
@@ -21,6 +21,7 @@ use TEST
 -- SELECT table_catalog[database],table_schema [schema],table_name name,table_type type
 -- FROM INFORMATION_SCHEMA.TABLES
 
+-- -----------------------------------------task2----------------------
 IF OBJECT_ID('Booking') IS NOT NULL 
 DROP TABLE Booking
 IF OBJECT_ID('Event') IS NOT NULL 
@@ -68,8 +69,10 @@ CREATE TABLE Booking(
 FOREIGN KEY(TourName,EventYear,EventMonth,EventDay) REFERENCES Event
     
 )
--- SELECT table_catalog[database],table_schema [schema],table_name name,table_type type
--- FROM INFORMATION_SCHEMA.TABLES
+SELECT table_catalog[database],table_schema [schema],table_name name,table_type type
+FROM INFORMATION_SCHEMA.TABLES
+
+-- --------------------------task 3-----------------------------------
 INSERT INTO Tour(TourName,Description) VALUES
 ('North','Tour of wineries and outlets of the Bedigo and Castlemaine region'),
 ('South','Tour of wineries and outlets of Mornington Penisula'),
@@ -102,6 +105,8 @@ INSERT INTO Booking(ClientID ,TourName,EventYear,EventMonth,EventDay,DateBooked,
 (3,'West',2016,'Jan',29,'2015-12-18',200),
 (4,'West',2016,'Jan',29,'2015-12-18',200);
 
+-- -----------------------task4----------------------------------------
+
 SELECT C.GivienName,C.Surname,T.TourName,T.Description,E.EventYear,E.EventMonth,E.EventDay,E.Fee, B.DateBooked,B.Payment 
 FROM Client C
 INNER JOIN Booking B
@@ -124,28 +129,7 @@ WHERE Payment>(
 );
 
 
-
--- GO
--- IF OBJECT_ID('Myview') IS NOT NULL
--- DROP VIEW Myview;
--- GO
--- CREATE VIEW Myview AS
--- SELECT st.GivenName AS FIRSTNAME,st.Surname AS LASTNAME,sb.SubjCode,sb.[Description],su.[Year],
--- su.Semester,su.Fee,te.GivenName,te.Surname
--- FROM Student st
--- INNER JOIN Enrolment en
--- on st.StudentID=en.StudentID
--- INNER JOIN SubjectOffering su
--- on en.SubjCode=su.SubjCode
--- INNER JOIN Subject sb
--- on sb.SubjCode=su.SubjCode
--- INNER JOIN Teacher te
---  ON te.StaffID=su.StaffID
---  GO
---  SELECT * 
---  FROM Myview
-
-
+-- -----------------------task5---------------------------------------
 GO
 IF OBJECT_ID('Myview') IS NOT NULL
 DROP VIEW Myview;
@@ -164,6 +148,17 @@ ON E.TourName=T.TourName
 SELECT * 
 FROM Myview
 
+--------------------------task6--------------------------------------
+SELECT  *
+FROM Client
+--  By listing all the client details to check whether all the information are list in the 
+-- query result
+SELECT * 
+FROM Booking
+-- -  By listing all the 10 bookings to check whether all the information are list in 
+-- the query result, the query result shows the total booking is 10, so this is correct.
 
-
-
+ SELECT AVG(Payment) as averagepayment
+    FROM Booking
+-- By listing the average payments to check whether the query result is right, 
+-- the average is 200, so the result is correct.
