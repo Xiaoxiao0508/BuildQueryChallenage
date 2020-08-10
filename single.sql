@@ -124,6 +124,7 @@ WHERE Payment>(
 );
 
 
+
 -- GO
 -- IF OBJECT_ID('Myview') IS NOT NULL
 -- DROP VIEW Myview;
@@ -143,6 +144,25 @@ WHERE Payment>(
 --  GO
 --  SELECT * 
 --  FROM Myview
+
+
+GO
+IF OBJECT_ID('Myview') IS NOT NULL
+DROP VIEW Myview;
+GO
+CREATE VIEW Myview AS
+SELECT C.GivienName,C.Surname,T.TourName,T.Description,E.EventYear,E.EventMonth,E.EventDay,E.Fee, B.DateBooked,B.Payment 
+FROM Client C
+INNER JOIN Booking B
+ON C.ClientID=B.ClientID
+INNER JOIN Event E
+ON B.EventYear=E.EventYear
+INNER JOIN Tour T
+ON E.TourName=T.TourName
+ GO
+
+SELECT * 
+FROM Myview
 
 
 
