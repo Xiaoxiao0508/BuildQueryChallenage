@@ -112,7 +112,7 @@ FROM Client C
 INNER JOIN Booking B
 ON C.ClientID=B.ClientID
 INNER JOIN Event E
-ON B.EventYear=E.EventYear
+ON B.EventYear=E.EventYear AND B.TourName=E.TourName AND B.EventMonth=E.EventMonth AND B.EventDay=E.EventDay
 INNER JOIN Tour T
 ON E.TourName=T.TourName
 
